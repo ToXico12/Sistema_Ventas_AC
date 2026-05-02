@@ -5,6 +5,7 @@
 package presentacion;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.TableRowSorter;
 import negocio.CategoriaControl;
 
 /**
@@ -15,6 +16,7 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
 
     private final CategoriaControl CONTROL;
     private String accion;
+    private String nombresAnt;
     /**
      * Creates new form FrmCategoria
      */
@@ -24,10 +26,13 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
         this.listar("");
         tabGeneral.setEnabledAt(1, false);
         this.accion="guardar";
+        txtId.setVisible(false);
     }
     
     private void listar(String texto){
     tablaListado.setModel(this.CONTROL.listar(texto));
+    TableRowSorter orden  = new TableRowSorter(tablaListado.getModel());
+    tablaListado.setRowSorter(orden);
     jLabel2.setText("Mostrando"+ this.CONTROL.totalMostrados()+" de un total de "+ this.CONTROL.total());
     this.accion="Guardar";
     }
@@ -64,6 +69,7 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaListado = new javax.swing.JTable();
         btnNuevo = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -73,7 +79,10 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        btnDesactivar = new javax.swing.JButton();
+        btnActivar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -110,6 +119,13 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
             }
         });
 
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -123,7 +139,9 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
                 .addComponent(btnBuscar)
                 .addGap(33, 33, 33)
                 .addComponent(btnNuevo)
-                .addContainerGap(275, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addComponent(btnEditar)
+                .addContainerGap(171, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
@@ -137,7 +155,8 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar)
-                    .addComponent(btnNuevo))
+                    .addComponent(btnNuevo)
+                    .addComponent(btnEditar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -185,10 +204,13 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
                         .addComponent(btnGuardar)
                         .addGap(46, 46, 46)
                         .addComponent(btnCancelar))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtNombre)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)))
-                .addContainerGap(399, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNombre)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE))
+                        .addGap(36, 36, 36)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(220, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,7 +218,8 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
                 .addGap(42, 42, 42)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,6 +237,20 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Registros:");
 
+        btnDesactivar.setText("Desactivar");
+        btnDesactivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesactivarActionPerformed(evt);
+            }
+        });
+
+        btnActivar.setText("Activar");
+        btnActivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActivarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -223,7 +260,11 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
                 .addComponent(tabGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 872, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(16, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
+                .addComponent(btnDesactivar)
+                .addGap(31, 31, 31)
+                .addComponent(btnActivar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(177, 177, 177))
         );
@@ -232,9 +273,12 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tabGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(jLabel2)
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(btnDesactivar)
+                    .addComponent(btnActivar))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         pack();
@@ -259,16 +303,33 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (txtNombre.getText().length() == 0) {
+        if (txtNombre.getText().length() == 0 || txtNombre.getText().length() > 20) {
             
-            JOptionPane.showMessageDialog(this, "Debes ingresar un nombre, es obligatorio","Sistema", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Debes ingresar un nombre y no debe ser mayor a 20 caracteres","Sistema", JOptionPane.WARNING_MESSAGE);
             txtNombre.requestFocus();
             return;
         }
         String resp;
+        
+        if (txtDescripcion.getText().length() > 255) {
+            JOptionPane.showMessageDialog(this, " una descripcion  no tiene que  ser mayor a 255 caracteres");
+            txtDescripcion.requestFocus();
+        }
         if (this.accion.equals("Editar")) {
             
             //Editar
+            
+             resp = this.CONTROL.actualizar(Integer.parseInt(txtId.getText()), txtNombre.getText(), this.nombresAnt , txtDescripcion.getText());
+            if (resp.equals("OK")) {
+            this.mensajeOk("Actualizado correctamente");
+            this.limpiar();
+            this.listar("");
+            tabGeneral.setSelectedIndex(0);
+            tabGeneral.setEnabledAt(1,false);
+            tabGeneral.setEnabledAt(0, true);
+            }else{
+            this.mensajeError(resp);
+            }
             
         }else{
             //guarddar
@@ -284,10 +345,83 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if (tablaListado.getSelectedRowCount() == 1) {
+            
+            String id = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
+            String nombre = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 1));
+            this.nombresAnt = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 1));
+            String descripcion = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 2));
+            
+            txtId.setText(id);
+            txtNombre.setText(nombre);
+            txtDescripcion.setText(descripcion);
+            
+            tabGeneral.setEnabledAt(0, false);
+            tabGeneral.setEnabledAt(1, true);
+            tabGeneral.setSelectedIndex(1);
+            
+            this.accion= "Editar";
+            btnGuardar.setText("Editar");
+            
+        }else{
+        this.mensajeError("Seleccione un registro a editar.");
+        
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnDesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesactivarActionPerformed
+        if (tablaListado.getSelectedRowCount() == 1) {
+            
+            String id = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
+            String nombre = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 1));
+            
+            
+           if (JOptionPane.showConfirmDialog(this,
+        "¿Desea desactivar el registro:" + nombre + "?","desactivar",JOptionPane.YES_NO_OPTION) == 0) {
+
+    String resp = this.CONTROL.desactivar(Integer.parseInt(id));
+
+    if (resp.equals("OK")) {
+        this.mensajeOk("Registro desactivado");
+        this.listar("");
+    }
+}
+            
+        }else{
+        this.mensajeError("Seleccione un registro a desactivar");
+        
+        }
+    }//GEN-LAST:event_btnDesactivarActionPerformed
+
+    private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
+        if (tablaListado.getSelectedRowCount() == 1) {
+        String id = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
+        String nombre = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 1));
+
+        if (JOptionPane.showConfirmDialog(this,"¿Desea activar el registro: " + nombre + "?","activar",JOptionPane.YES_NO_OPTION) == 0) {
+
+            String resp = this.CONTROL.activar(Integer.parseInt(id));
+
+            if (resp.equals("OK")) {
+                this.mensajeOk("Registro activado");
+                this.listar("");
+            } else {
+                this.mensajeError(resp);
+            }
+        }
+    } else {
+        this.mensajeError("Seleccione un registro a activar");
+    }
+    }//GEN-LAST:event_btnActivarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActivar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnDesactivar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JLabel jLabel1;
@@ -303,6 +437,8 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
     private javax.swing.JTable tablaListado;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextArea txtDescripcion;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
+
