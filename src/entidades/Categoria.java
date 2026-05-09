@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package entidades;
 
 /**
@@ -14,7 +11,7 @@ public class Categoria {
     private String descripcion;
     private boolean activo;
     
-    //cosntructores
+
 
     public Categoria() {
     }
@@ -57,12 +54,11 @@ public class Categoria {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-
+    // metodo to string
     @Override
     public String toString() {
         return "Categoria{" + "id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", activo=" + activo + '}';
     }
-    
     
     
 }
