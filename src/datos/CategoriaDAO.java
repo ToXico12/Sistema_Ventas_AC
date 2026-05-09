@@ -84,7 +84,7 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria> {
     public boolean actualizar(Categoria obj) {
              resp = false;
         try {
-            ps = CON.conectar().prepareStatement("UPDATE categoria SET nombre=?, descripcion=? WHERE id=?");
+            ps = CON.conectar().prepareStatement("UPDATE categoria SET nombre=? descripcion=? WHERE id=?");
             ps.setString(1, obj.getNombre());
             ps.setString(2, obj.getDescripcion());
             ps.setInt(3, obj.getId());
@@ -105,7 +105,7 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria> {
     public boolean desactivar(int id) {
         resp = false;
         try {
-            ps = CON.conectar().prepareStatement("UPDATE categoria SET activo=0,  WHERE id=?");
+            ps = CON.conectar().prepareStatement("UPDATE categoria SET activo=0  WHERE id=?");
             
             ps.setInt(1, id);
             if(ps.executeUpdate() > 0){
@@ -125,7 +125,7 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria> {
     public boolean activar(int id) {
         resp = false;
         try {
-            ps = CON.conectar().prepareStatement("UPDATE categoria SET activo=1,  WHERE id=?");
+            ps = CON.conectar().prepareStatement("UPDATE categoria SET activo=1 WHERE id=?");
             
             ps.setInt(1, id);
             if(ps.executeUpdate() > 0){
@@ -146,7 +146,7 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria> {
         int totalRegistros = 0;
         resp = false;
         try {
-            ps = CON.conectar().prepareStatement("SELECT COUNT(id) categoria");
+            ps = CON.conectar().prepareStatement("SELECT COUNT(id) FROM categoria");
             rs = ps.executeQuery();
             while(rs.next()){
                 totalRegistros = rs.getInt("COUNT(id)");
@@ -170,8 +170,8 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria> {
             ps = CON.conectar().prepareStatement("SELECT nombre FROM categoria WHERE nombre =?");
             ps.setString(1, texto);
             rs = ps.executeQuery();
-            rs.last();
-            if(rs.getRow() > 0){
+            
+            if(rs.next()){
                 resp = true;
             }
             ps.close();
