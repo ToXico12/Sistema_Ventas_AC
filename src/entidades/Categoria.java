@@ -11,8 +11,6 @@ public class Categoria {
     private String descripcion;
     private boolean activo;
     
-
-
     public Categoria() {
     }
 

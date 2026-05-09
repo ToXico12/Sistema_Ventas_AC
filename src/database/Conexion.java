@@ -27,7 +27,7 @@ public class Conexion {
     public static Conexion instancia;
     
     
-    private Conexion(){
+    Conexion(){
     
         this.cadena = null;
     }
